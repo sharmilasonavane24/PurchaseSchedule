@@ -2,10 +2,12 @@
 import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import * as Buyer from './Buyer';
+import * as Supplier from './Supplier';
 
 export default function configureStore(history, initialState) {
   const reducers = {
       buyers: Buyer.reducer,
+      suppliers:Supplier.reducer
   };
 
   const middleware = [

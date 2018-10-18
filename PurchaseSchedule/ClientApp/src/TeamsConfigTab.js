@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { connectTeamsComponent, Panel, PanelBody } from 'msteams-ui-components-react';
-import BuyerDropDown from './components/BuyerDropdown';
+import BuyerDropDown from './components/BuyerDropDown';
+import SupplierDropDown from './components/SupplierDropDown';
 
 class TeamsConfigTabInner extends React.Component {
     constructor(props) {
@@ -9,9 +10,15 @@ class TeamsConfigTabInner extends React.Component {
             selectedBuyer: {
                 buyername: '',
                 buyerid: ''
+            },
+            selectedSupplier: {
+                suppliername: '',
+                supplierid: ''
             }
         };
         this.handleBuyerSelected = this.handleBuyerSelected.bind(this);
+        this.handleSupplierSelected = this.handleSupplierSelected.bind(this);
+
     }
 
     componentDidUpdate() {
@@ -29,7 +36,17 @@ class TeamsConfigTabInner extends React.Component {
                 });
         }
     }
-
+    handleSupplierSelected(e, supplier) {
+        if (supplier !== this.state.selectedSupplier) {
+            this.setState(
+                {
+                    selectedSupplier: {
+                        suppliername: supplier.suppliername ? supplier.suppliername : supplier.supplierid,
+                        supplierid: supplier.supplierid
+                    }
+                });
+        }
+    }
     render() {
         const styles = {
             panel:
@@ -45,6 +62,8 @@ class TeamsConfigTabInner extends React.Component {
             <Panel style={styles.panel}>
                 <PanelBody>
                     <BuyerDropDown onClick={this.handleBuyerSelected} buyer={this.state.selectedBuyer} />
+                    <SupplierDropDown onClick={this.handleSupplierSelected} supplier={this.state.selectedSupplier} />
+
                 </PanelBody>
             </Panel>
         );
