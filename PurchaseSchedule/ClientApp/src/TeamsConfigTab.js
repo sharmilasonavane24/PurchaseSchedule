@@ -2,6 +2,7 @@
 import { connectTeamsComponent, Panel, PanelBody } from 'msteams-ui-components-react';
 import BuyerDropDown from './components/BuyerDropDown';
 import SupplierDropDown from './components/SupplierDropDown';
+import WorkspaceDropDown from './components/WorkspaceDropDown';
 
 class TeamsConfigTabInner extends React.Component {
     constructor(props) {
@@ -14,10 +15,15 @@ class TeamsConfigTabInner extends React.Component {
             selectedSupplier: {
                 suppliername: '',
                 supplierid: ''
+            },
+            selectedWorkspace: {
+               workspacename: '',
+                workspaceid: ''
             }
         };
         this.handleBuyerSelected = this.handleBuyerSelected.bind(this);
         this.handleSupplierSelected = this.handleSupplierSelected.bind(this);
+        this.handleWorkspaceSelected = this.handleWorkspaceSelected.bind(this);
 
     }
 
@@ -47,6 +53,17 @@ class TeamsConfigTabInner extends React.Component {
                 });
         }
     }
+    handleWorkspaceSelected(e, workspace) {
+        if (workspace !== this.state.selectedWorkspace) {
+            this.setState(
+                {
+                    selectedWorkspace: {
+                        workspacename: workspace.workspacename ? workspace.workspacename : workspace.workspaceid,
+                        workspaceid: workspace.workspaceid
+                    }
+                });
+        }
+    }
     render() {
         const styles = {
             panel:
@@ -61,6 +78,8 @@ class TeamsConfigTabInner extends React.Component {
         return (
             <Panel style={styles.panel}>
                 <PanelBody>
+                    <WorkspaceDropDown onClick={this.handleWorkspaceSelected} workspace={this.state.selectedWorkspace} />
+
                     <BuyerDropDown onClick={this.handleBuyerSelected} buyer={this.state.selectedBuyer} />
                     <SupplierDropDown onClick={this.handleSupplierSelected} supplier={this.state.selectedSupplier} />
 

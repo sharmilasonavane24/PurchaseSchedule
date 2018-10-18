@@ -20,7 +20,8 @@
     "msteams-ui-icons-core": "^0.3.0",
     "msteams-ui-styles-core": "^0.7.3",
     "react-adal": "0.4.18",
-    "typestyle": "^2.0.1"
+    "typestyle": "^2.0.1",
+    "react-toggle-display": "2.2.0"
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
