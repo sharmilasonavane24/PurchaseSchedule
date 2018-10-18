@@ -1,0 +1,72 @@
+﻿{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
+  "version": "1.0.0",
+  "id": "819b3a8e-f8cc-4196-8997-870d3015760d",
+  "packageName": "com.terberg.purchaseschedule",
+  "developer": {
+    "name": "Terberg",
+    "websiteUrl": "https://www.terbergspecialvehicles.com/en/",
+    "privacyUrl": "https://www.terbergspecialvehicles.com/en/privacy-policy/",
+    "termsOfUseUrl": "https://www.terbergspecialvehicles.com/en/disclaimer/"
+  },
+  "name": {
+    "short": "Purchase Schedule",
+    "full": "Purchase Schedule App for Terberg Teams"
+  },
+  "description": {
+    "short": "Purchase Schedule App for Terberg Teams",
+    "full": "This sample app provides a very simple app for Terberg Teams. You can extend this to add more content and capabilities."
+  },
+  "icons": {
+    "outline": "purchaseschedule-icon.png",
+    "color": "purchaseschedule-icon.png"
+  },
+  "accentColor": "#60A18E",
+  "staticTabs": [
+    {
+      "entityId": "home",
+      "name": "home",
+      "contentUrl": "https://2ee2e991.ngrok.io/home",
+      "scopes": [ "team" ]
+    }
+  ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://2ee2e991.ngrok.io/teamsconfig",
+      "canUpdateConfiguration": true,
+      "scopes": [ "team" ]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "a5660269-4afa-4096-87c1-436ed0d51f55",
+      "needsChannelSelector": false,
+      "isNotificationOnly": false,
+      "scopes": [ "team", "personal" ]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "a5660269-4afa-4096-87c1-436ed0d51f55",
+      "scopes": [ "personal", "team" ],
+      "commands": [
+        {
+          "id": "getRandomText",
+          "description": "Gets some random text and images that you can insert in messages for fun.",
+          "title": "Get some random text for fun",
+          "initialRun": true,
+          "parameters": [
+            {
+              "name": "cardTitle",
+              "description": "Card title to use",
+              "title": "Card title"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [],
+  "validDomains": []
+}
