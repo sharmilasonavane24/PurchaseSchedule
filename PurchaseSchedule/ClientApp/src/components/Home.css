@@ -12,7 +12,11 @@
     clear: both;
     margin-left: 10px;
 }
-.top-container{
-    border-style:solid;
-    border-width:1px;
+.top-container {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}
+.icon-show{
+    float:right;
 }
