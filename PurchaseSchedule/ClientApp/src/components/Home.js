@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { inTeams, getQueryVariable } from '../Utils';
+import microsoftTeams from '@microsoft/teams-js';
+
 import { Toggle, IconButton, connectTeamsComponent, Table, TBody, Td, Tr, PrimaryButton, Dropdown, PanelBody, Panel } from 'msteams-ui-components-react';
 import { MSTeamsIconWeight, MSTeamsIconType } from 'msteams-ui-icons-react';
 import './Home.css';
 class HomeInner extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             show: false,
             isPurchaseOrder: true,
@@ -13,13 +16,40 @@ class HomeInner extends React.Component {
             isForecastSale: true,
             isForecastLongTerm: true,
             innerHeight: window.innerHeight,
+            selectedSupplier: {
+                name: getQueryVariable('suppliername'),
+                id: ''
+            },
+            selectedBuyer: {
+                name: getQueryVariable('buyername'),
+                id: ''
+            },
         };
         this.handleShowClick = this.handleShowClick.bind(this);
         this.handlePurchaseOrderToggle = this.handlePurchaseOrderToggle.bind(this);
         this.handlePlannedOrderToggle = this.handlePlannedOrderToggle.bind(this);
         this.handleForecastSaleToggle = this.handleForecastSaleToggle.bind(this);
         this.handleForecastLongTermToggle = this.handleForecastLongTermToggle.bind(this);
+        
+      
+         
+
+        if (inTeams()) {
+           // alert("URL " + getQueryVariable('loginHint'));
+            microsoftTeams.initialize();
+            microsoftTeams.settings.getSettings(settings => {
+                alert(" Settings  " + settings)
+            });
+        }
     }
+    CurrentTab(tabs) {
+        var currentEntityId = getQueryVariable('entityId');
+        var data = JSON.parse(JSON.stringify(tabs.teamTabs));
+        for (var tab in data) {
+            alert("tab: "+tab +" "+JSON.stringify( data[tab]));
+        }
+    }
+
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions);
     }
@@ -88,13 +118,13 @@ class HomeInner extends React.Component {
                                         <tr>
                                             <td style={styles.header}>Supplier Name:</td>
                                             <td>
-                                                SupplierName  
+                                                {this.state.selectedSupplier.name}  
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style={styles.header}>Buyer Name: </td>
                                             <td>
-                                                BuyerName 
+                                                {this.state.selectedBuyer.name}  
                                             </td>
                                         </tr>
                                     </table>

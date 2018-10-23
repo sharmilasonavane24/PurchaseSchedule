@@ -5,7 +5,9 @@ import SupplierDropDown from './components/SupplierDropDown';
 import WorkspaceDropDown from './components/WorkspaceDropDown';
 import { inTeams, getQueryVariable } from './Utils';
 import microsoftTeams from '@microsoft/teams-js';
+
 const uuidv4 = require('uuid/v4');
+
 class TeamsConfigTabInner extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +36,6 @@ class TeamsConfigTabInner extends React.Component {
         this.onTabNameChanged = this.onTabNameChanged.bind(this);
 
         if (inTeams()) {
-                      
             microsoftTeams.getTabInstances((t, e) => {
                 this.ActivateTabName(t);
             });
@@ -44,13 +45,17 @@ class TeamsConfigTabInner extends React.Component {
                 microsoftTeams.settings.setSettings({
                     entityId: this.state.tabDetails.id,
                     tabName: this.state.tabDetails.name,
-                    contentUrl: host + "/home/?theme={theme}&loginHint={loginHint}",
+                    contentUrl: host + "/home/?theme={theme}&loginHint={loginHint}&entityId={entityId}"
+                        + "&suppliername=" + this.state.selectedSupplier.name
+                        + "&supplierid" + this.state.selectedSupplier.id
+                        + "&buyername=" + this.state.selectedBuyer.name
+                        + "&buyerid" + this.state.selectedBuyer.id
+                    ,
                     suggestedDisplayName: this.state.tabDetails.name,
                     supplier: this.state.selectedSupplier,
                     buyer:this.state.selectedBuyer
                 });
                 saveEvent.notifySuccess();
-              
             });
         }
 
@@ -78,11 +83,17 @@ class TeamsConfigTabInner extends React.Component {
     componentDidUpdate() {
        
         if (inTeams()) {
-            if (this.state.selectedBuyer.name
+            if (this.state.selectedBuyer.id
                 && this.state.selectedSupplier.id
                 && this.state.selectedWorkspace.id
-                && this.state.tabDetails.name) {
+                && this.state.tabDetails.id) {
                 microsoftTeams.settings.setValidityState(true);
+                microsoftTeams.settings.setSettings({
+                   
+                    supplier: this.state.selectedSupplier,
+                    buyer: this.state.selectedBuyer
+                });
+
             } else {
                 microsoftTeams.settings.setValidityState(false);
             }
