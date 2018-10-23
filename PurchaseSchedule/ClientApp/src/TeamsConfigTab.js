@@ -5,7 +5,7 @@ import SupplierDropDown from './components/SupplierDropDown';
 import WorkspaceDropDown from './components/WorkspaceDropDown';
 import { inTeams, getQueryVariable } from './Utils';
 import microsoftTeams from '@microsoft/teams-js';
-
+const uuidv4 = require('uuid/v4');
 class TeamsConfigTabInner extends React.Component {
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class TeamsConfigTabInner extends React.Component {
             tabDetails: {
                 name: '',
                 id: '',
-                isReady: false
+                isHidden: false
             }
         };
         this.handleBuyerSelected = this.handleBuyerSelected.bind(this);
@@ -45,7 +45,9 @@ class TeamsConfigTabInner extends React.Component {
                     entityId: this.state.tabDetails.id,
                     tabName: this.state.tabDetails.name,
                     contentUrl: host + "/home/?theme={theme}&loginHint={loginHint}",
-                    suggestedDisplayName: this.state.tabDetails.name
+                    suggestedDisplayName: this.state.tabDetails.name,
+                    supplier: this.state.selectedSupplier,
+                    buyer:this.state.selectedBuyer
                 });
                 saveEvent.notifySuccess();
               
@@ -61,7 +63,7 @@ class TeamsConfigTabInner extends React.Component {
                 if (currentEntityId !== '') {
                     this.setState({
                         tabDetails: {
-                            isReady: true,
+                            isHidden: true,
                             name: data[tab].tabName,
                             id: data[tab].entityId
                         }
@@ -115,7 +117,7 @@ class TeamsConfigTabInner extends React.Component {
                 {
                     tabDetails: {
                         name: e.target.value,
-                        id: (e.target.value).replace(' ', '') + '_EntityId'
+                        id: uuidv4()
                     }
                 });
         }
@@ -153,14 +155,14 @@ class TeamsConfigTabInner extends React.Component {
         return (
             <Panel style={styles.panel}>
                 <PanelBody>
-                    <span className={this.state.tabDetails.isReady ? 'hidden' : ''}>
+                    <span className={this.state.tabDetails.isHidden ? 'hidden' : ''}>
                         <span>Tab Name</span> <Input
                             autoFocus
                             style={styles.input}
                             placeholder="Tab name"
                             onChange={this.onTabNameChanged}
                             required
-                            className={this.state.tabDetails.isReady ? 'hidden' : ''}
+                            className={this.state.tabDetails.isHidden ? 'hidden' : ''}
                         />
                     </span>
                     <WorkspaceDropDown onClick={this.handleWorkspaceSelected} workspace={this.state.selectedWorkspace} />
