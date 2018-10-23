@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { connectTeamsComponent, Panel, PanelBody,Input } from 'msteams-ui-components-react';
+import { connectTeamsComponent, Panel, PanelBody, Input } from 'msteams-ui-components-react';
 import BuyerDropDown from './components/BuyerDropDown';
 import SupplierDropDown from './components/SupplierDropDown';
 import WorkspaceDropDown from './components/WorkspaceDropDown';
@@ -19,13 +19,13 @@ class TeamsConfigTabInner extends React.Component {
                 supplierid: ''
             },
             selectedWorkspace: {
-               workspacename: '',
+                workspacename: '',
                 workspaceid: ''
             },
-            tabDetails:{
+            tabDetails: {
                 tabEntityId: '',
                 tabName: '',
-                isReady:false
+                isReady: false
             }
         };
         this.handleBuyerSelected = this.handleBuyerSelected.bind(this);
@@ -34,17 +34,29 @@ class TeamsConfigTabInner extends React.Component {
         this.onTabNameChanged = this.onTabNameChanged.bind(this);
 
         if (inTeams()) {
+            microsoftTeams.getTabInstances((t, e) => {
+                if (t.teamTabs[0]) {
+                    this.setState(
+                        {
+                            tabDetails: {
+                                isReady: true,
+                            }
+                        });
+                }
+            });
             microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
                 let host = "https://" + window.location.host;
                 microsoftTeams.settings.setSettings({
                     entityId: this.state.tabDetails.tabEntityId,
                     Name: this.state.tabDetails.tabName,
                     contentUrl: host + "/home/?theme={theme}&loginHint={loginHint}",
-                    suggestedDisplayName: "Purchase Schedule"
+                    suggestedDisplayName: this.state.tabDetails.tabName
                 });
                 saveEvent.notifySuccess();
+               
             });
         }
+
     }
 
     componentDidUpdate() {
@@ -83,7 +95,7 @@ class TeamsConfigTabInner extends React.Component {
         }
     }
     onTabNameChanged(e) {
-        if (e.target.value !== this.state.tabDetails.tabName ) {
+        if (e.target.value !== this.state.tabDetails.tabName) {
             this.setState(
                 {
                     tabDetails: {
@@ -122,19 +134,19 @@ class TeamsConfigTabInner extends React.Component {
                 width: '100%'
             }
         };
-
         return (
             <Panel style={styles.panel}>
                 <PanelBody>
-                    <Input
-                        autoFocus
-                        style={styles.input}
-                        placeholder="Tab name"
-                        label="Tab name"
-                        onChange={this.onTabNameChanged}
-                        required
-                        className={this.state.tabDetails.isReady?'hidden':''}
-                    />
+                    <span className={this.state.tabDetails.isReady ? 'hidden' : ''}>
+                        <span>Tab Name</span> <Input
+                            autoFocus
+                            style={styles.input}
+                            placeholder="Tab name"
+                            onChange={this.onTabNameChanged}
+                            required
+                            className={this.state.tabDetails.isReady ? 'hidden' : ''}
+                        />
+                    </span>
                     <WorkspaceDropDown onClick={this.handleWorkspaceSelected} workspace={this.state.selectedWorkspace} />
                     <BuyerDropDown onClick={this.handleBuyerSelected} buyer={this.state.selectedBuyer} />
                     <SupplierDropDown onClick={this.handleSupplierSelected} supplier={this.state.selectedSupplier} />

@@ -13,9 +13,9 @@ class WorkspaceDropDownInner extends React.Component {
     render() {
         return (
             <div>
+                <span>{this.props.loading ? 'Loading Workspaces...' : 'Workspaces'}</span>
                 <Dropdown
-                    autoFocus
-                    label={this.props.loading ? 'Loading Workspaces...' : 'Workspaces'}
+                    
                     mainButtonText={this.props.workspace.workspaceid ?
                         this.props.workspace.workspacename :
                         "Please select a Workspace..."}

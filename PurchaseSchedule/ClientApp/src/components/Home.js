@@ -14,6 +14,11 @@ class HomeInner extends React.Component {
             isForecastLongTerm: true,
             innerHeight: window.innerHeight,
         };
+        this.handleShowClick = this.handleShowClick.bind(this);
+        this.handlePurchaseOrderToggle = this.handlePurchaseOrderToggle.bind(this);
+        this.handlePlannedOrderToggle = this.handlePlannedOrderToggle.bind(this);
+        this.handleForecastSaleToggle = this.handleForecastSaleToggle.bind(this);
+        this.handleForecastLongTermToggle = this.handleForecastLongTermToggle.bind(this);
     }
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions);
@@ -53,7 +58,7 @@ class HomeInner extends React.Component {
         const { sizes, weights } = font;
 
         const styles = {
-            header: { ...sizes.title, ...weights.semibold },
+            header: { ...sizes.title1, ...weights.semibold },
             label: { ...sizes.caption, ...weights.semibold },
             ylabel: { ...sizes.xsmall, ...weights.semibold },
             panel: { height: this.state.innerHeight }
@@ -64,62 +69,74 @@ class HomeInner extends React.Component {
                 <PanelBody>
                     <div className="top-container">
                         <div>
-                            
+
                             <IconButton
                                 iconWeight={MSTeamsIconWeight.Regular}
-                                onClick={() => this.handleShowClick()}
+                                onClick={this.handleShowClick}
                                 iconType={this.state.show ? MSTeamsIconType.ChevronUp : MSTeamsIconType.ChevronDown}
                             />
                             <IconButton
                                 iconWeight={MSTeamsIconWeight.Regular}
-                                onClick={() => this.handleShowClick()}
+                                onClick={this.handleShowClick}
                                 iconType={this.state.show ? MSTeamsIconType.ChevronUp : MSTeamsIconType.ChevronDown}
-                                className="icon-show"/>
+                                className="icon-show" />
                         </div>
-                         
+
                         <div className={this.state.show ? 'hidden' : ''}>
                             <div className="row">
                                 <div className="column">
-                                    <Table>
-                                        <TBody>
-                                            <Tr>
-                                                <Td> Purchase orders:</Td>
-                                                <Td><Toggle autoFocus label='Purchase orders' checked={this.state.isPurchaseOrder} onToggle={() => this.handlePurchaseOrderToggle()} />
-                                                </Td>
-                                                <Td> Planned orders:</Td>
-                                                <Td>
-                                                    <Toggle label='Purchase orders' checked={this.state.isPlannedOrder} onToggle={() => this.handlePlannedOrderToggle()} />
-                                                </Td>
-                                            </Tr>
-                                            <Tr>
-                                                <Td>Forecast (sales):</Td>
-                                                <Td>
-                                                    <Toggle label='Purchase orders' checked={this.state.isForecastSale} onToggle={() => this.handleForecastSaleToggle()} />
-                                                </Td>
-                                                <Td>Forecast (long Term): </Td>
-                                                <Td>
-                                                    <Toggle label='Purchase orders' checked={this.state.isForecastLongTerm} onToggle={() => this.handleForecastLongTermToggle()} />
-                                                </Td>
-                                            </Tr>
-                                        </TBody>
-                                    </Table>
-                                </div>
+                                    <table>
+                                        <tr>
+                                            <td style={styles.header}>Supplier Name:</td>
+                                            <td>
+                                                SupplierName  
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={styles.header}>Buyer Name: </td>
+                                            <td>
+                                                BuyerName 
+                                            </td>
+                                        </tr>
+                                        
+
+                                    </table>
+                                    </div>
                                 <div className="column">
-                                    <Dropdown
-                                        label="Old version"
-                                        mainButtonText="Old version"
-                                        items={[
-                                            { text: 'option1', onClick: () => console.log('hello') },
-                                            { text: 'option2', onClick: () => console.log('hello') },
-                                            { text: 'option3', onClick: () => console.log('hello') },
-                                            { text: 'option4', onClick: () => console.log('hello') }
-                                        ]}
-                                    />
-                                    <div>Has been send to supplier</div>
+                                    <table>
+                                        <tr>
+                                            <td style={styles.header}>Purchase orders:   </td>
+                                            <td>
+                                                <Toggle autoFocus label='Purchase orders' checked={this.state.isPurchaseOrder} onToggle={this.handlePurchaseOrderToggle} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={styles.header}> Planned orders:</td>
+                                            <td>
+                                                <Toggle label='Purchase orders' checked={this.state.isPlannedOrder} onToggle={this.handlePlannedOrderToggle} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={styles.header}>Forecast (Sales):</td>
+                                            <td>
+                                                <Toggle label='Purchase orders' checked={this.state.isForecastSale} onToggle={this.handleForecastSaleToggle} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={styles.header}>Forecast (Long Term):</td>
+                                            <td>
+                                                <Toggle label='Purchase orders' checked={this.state.isForecastLongTerm} onToggle={this.handleForecastLongTermToggle} />
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+
                                 </div>
+                                
                                 <div className="column">
-                                     <PrimaryButton>Send report to supplier</PrimaryButton>
-                                        <br /> <br /><PrimaryButton>Run report with filter</PrimaryButton> 
+                                    <PrimaryButton>Send</PrimaryButton>
+                                    <br /> <br /><PrimaryButton>Apply</PrimaryButton>
 
                                 </div>
                             </div>
@@ -127,7 +144,7 @@ class HomeInner extends React.Component {
                     </div>
                 </PanelBody>
             </Panel>
-           
+
         );
     }
 }

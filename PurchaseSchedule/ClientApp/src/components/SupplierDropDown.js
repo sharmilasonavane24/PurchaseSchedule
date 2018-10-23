@@ -13,9 +13,9 @@ class SupplierDropDownInner extends React.Component {
     render() {
         return (
             <div>
+                <span>{this.props.loading ? 'Loading Suppliers...' : 'Suppliers'}</span>
                 <Dropdown
                     autoFocus
-                    label={this.props.loading ? 'Loading Suppliers...' : 'Suppliers'}
                     mainButtonText={this.props.supplier.supplierid ?
                         this.props.supplier.suppliername :
                         "Please select a Supplier..."}
