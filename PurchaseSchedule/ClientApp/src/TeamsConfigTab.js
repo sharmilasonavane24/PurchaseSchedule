@@ -11,16 +11,16 @@ class TeamsConfigTabInner extends React.Component {
         super(props);
         this.state = {
             selectedBuyer: {
-                buyername: '',
-                buyerid: ''
+                name: '',
+                id: ''
             },
             selectedSupplier: {
-                suppliername: '',
-                supplierid: ''
+                name: '',
+                id: ''
             },
             selectedWorkspace: {
-                workspacename: '',
-                workspaceid: ''
+                name: '',
+                id: ''
             },
             tabDetails: {
                 tabEntityId: '',
@@ -36,16 +36,16 @@ class TeamsConfigTabInner extends React.Component {
         if (inTeams()) {
                       
             microsoftTeams.getTabInstances((t, e) => {
-                this.ActivateTabName();
+                this.ActivateTabName(t);
             });
 
             microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
                 let host = "https://" + window.location.host;
                 microsoftTeams.settings.setSettings({
-                    entityId: this.state.tabDetails.tabEntityId,
-                    Name: this.state.tabDetails.tabName,
+                    entityId: this.state.tabDetails.id,
+                    Name: this.state.tabDetails.name,
                     contentUrl: host + "/home/?theme={theme}&loginHint={loginHint}",
-                    suggestedDisplayName: this.state.tabDetails.tabName
+                    suggestedDisplayName: this.state.tabDetails.name
                 });
                 saveEvent.notifySuccess();
               
@@ -53,12 +53,21 @@ class TeamsConfigTabInner extends React.Component {
         }
 
     }
-    ActivateTabName() {
-            var currentEntity = getQueryVariable('entityId');
-            if (currentEntity !== '') {
+    ActivateTabName(tabs) {
+        var currentEntityId = getQueryVariable('entityId');
+        var tabName = '';
+        var data = JSON.parse(JSON.stringify(tabs.teamTabs));
+        for (var tab in data) {
+            if (currentEntityId === data[tab].entityId) {
+                tabName = data[tab].tabName;
+            }
+        }
+
+        if (currentEntityId !== '') {
                 this.setState({
                         tabDetails: {
                             isReady: true,
+                            name:tabName
                         }
                     });
             }
@@ -67,10 +76,10 @@ class TeamsConfigTabInner extends React.Component {
     componentDidUpdate() {
        
         if (inTeams()) {
-            if (this.state.selectedBuyer.buyername
-                && this.state.selectedSupplier.supplierid
-                && this.state.selectedWorkspace.workspaceid
-                && this.state.tabDetails.tabName) {
+            if (this.state.selectedBuyer.name
+                && this.state.selectedSupplier.id
+                && this.state.selectedWorkspace.id
+                && this.state.tabDetails.name) {
                 microsoftTeams.settings.setValidityState(true);
             } else {
                 microsoftTeams.settings.setValidityState(false);
@@ -83,8 +92,8 @@ class TeamsConfigTabInner extends React.Component {
             this.setState(
                 {
                     selectedBuyer: {
-                        buyername: buyer.buyername ? buyer.buyername : buyer.buyerid,
-                        buyerid: buyer.buyerid
+                        name: buyer.name ? buyer.name : buyer.id,
+                        id: buyer.id
                     }
                 });
         }
@@ -94,8 +103,8 @@ class TeamsConfigTabInner extends React.Component {
             this.setState(
                 {
                     selectedSupplier: {
-                        suppliername: supplier.suppliername ? supplier.suppliername : supplier.supplierid,
-                        supplierid: supplier.supplierid
+                        name: supplier.name ? supplier.name : supplier.id,
+                        id: supplier.id
                     }
                 });
         }
@@ -105,8 +114,8 @@ class TeamsConfigTabInner extends React.Component {
             this.setState(
                 {
                     tabDetails: {
-                        tabName: e.target.value,
-                        tabEntityId: (e.target.value).replace(' ', '') + '_EntityId'
+                        name: e.target.value,
+                        id: (e.target.value).replace(' ', '') + '_EntityId'
                     }
                 });
         }
@@ -116,8 +125,8 @@ class TeamsConfigTabInner extends React.Component {
             this.setState(
                 {
                     selectedWorkspace: {
-                        workspacename: workspace.workspacename ? workspace.workspacename : workspace.workspaceid,
-                        workspaceid: workspace.workspaceid
+                        name: workspace.name ? workspace.name : workspace.id,
+                        id: workspace.id
                     }
                 });
         }

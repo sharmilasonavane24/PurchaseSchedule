@@ -16,16 +16,16 @@ class WorkspaceDropDownInner extends React.Component {
                 <span>{this.props.loading ? 'Loading Workspaces...' : 'Workspaces'}</span>
                 <Dropdown
                     
-                    mainButtonText={this.props.workspace.workspaceid ?
-                        this.props.workspace.workspacename :
+                    mainButtonText={this.props.workspace.id ?
+                        this.props.workspace.name :
                         "Please select a Workspace..."}
                     style={{ width: '100%' }}
                     items={
                         this.props.workspaces.map(workspace => {
-                            if (workspace.workspaceid) {
+                            if (workspace.id) {
                                 return {
-                                    text: workspace.workspacename ? workspace.workspacename : workspace.workspaceid,
-                                    key: workspace.workspaceid,
+                                    text: workspace.name ? workspace.name : workspace.id,
+                                    key: workspace.id,
                                     onClick: (e) => this.props.onClick(e, workspace)
                                 };
                             } else {

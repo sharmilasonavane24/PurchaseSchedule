@@ -69,7 +69,6 @@ class HomeInner extends React.Component {
                 <PanelBody>
                     <div className="top-container">
                         <div>
-
                             <IconButton
                                 iconWeight={MSTeamsIconWeight.Regular}
                                 onClick={this.handleShowClick}
@@ -98,8 +97,6 @@ class HomeInner extends React.Component {
                                                 BuyerName 
                                             </td>
                                         </tr>
-                                        
-
                                     </table>
                                     </div>
                                 <div className="column">
@@ -130,10 +127,7 @@ class HomeInner extends React.Component {
                                         </tr>
 
                                     </table>
-
-
                                 </div>
-                                
                                 <div className="column">
                                     <PrimaryButton>Send</PrimaryButton>
                                     <br /> <br /><PrimaryButton>Apply</PrimaryButton>
@@ -144,11 +138,9 @@ class HomeInner extends React.Component {
                     </div>
                 </PanelBody>
             </Panel>
-
         );
     }
 }
 const Home = connectTeamsComponent(HomeInner);
-
 
 export default connect()(Home);

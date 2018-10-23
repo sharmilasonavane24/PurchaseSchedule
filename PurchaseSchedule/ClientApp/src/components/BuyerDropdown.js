@@ -17,14 +17,14 @@ class BuyerDropDownInner extends React.Component {
                 <Dropdown
                     autoFocus
                     mainButtonText={this.props.buyer.id ?
-                        this.props.buyer.buyername :
+                        this.props.buyer.name :
                         "Please select a Buyer..."}
                     style={{ width: '100%' }}
                     items={
                         this.props.buyers.map(buyer => {
                             if (buyer.id) {
                                 return {
-                                    text: buyer.buyername ? buyer.buyername : buyer.id,
+                                    text: buyer.name ? buyer.name : buyer.id,
                                     key: buyer.id,
                                     onClick: (e) => this.props.onClick(e, buyer)
                                 };

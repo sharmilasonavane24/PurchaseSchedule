@@ -12,7 +12,7 @@ const initialState = {
 export const actionCreators = {
     requestWorkspaces: () => async (dispatch) => {
         dispatch({ type: requestWorkspacesType });
-        var result = JSON.parse('[{ "workspaceid":"1", "workspacename":"WorkspaceName1" },{ "workspaceid":"2", "workspacename":"WorkspaceName2" },{ "workspaceid":"3", "workspacename":"WorkspaceName3" }]');
+        var result = JSON.parse('[{ "id":"1", "name":"WorkspaceName1" },{ "id":"2", "name":"WorkspaceName2" },{ "id":"3", "name":"WorkspaceName3" }]');
         dispatch({ type: receiveWorkspacesType, result });
     }
 };
