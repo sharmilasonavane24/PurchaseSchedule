@@ -23,8 +23,8 @@ class TeamsConfigTabInner extends React.Component {
                 id: ''
             },
             tabDetails: {
-                tabEntityId: '',
-                tabName: '',
+                name: '',
+                id: '',
                 isReady: false
             }
         };
@@ -43,7 +43,7 @@ class TeamsConfigTabInner extends React.Component {
                 let host = "https://" + window.location.host;
                 microsoftTeams.settings.setSettings({
                     entityId: this.state.tabDetails.id,
-                    Name: this.state.tabDetails.name,
+                    tabName: this.state.tabDetails.name,
                     contentUrl: host + "/home/?theme={theme}&loginHint={loginHint}",
                     suggestedDisplayName: this.state.tabDetails.name
                 });
@@ -55,22 +55,22 @@ class TeamsConfigTabInner extends React.Component {
     }
     ActivateTabName(tabs) {
         var currentEntityId = getQueryVariable('entityId');
-        var tabName = '';
         var data = JSON.parse(JSON.stringify(tabs.teamTabs));
         for (var tab in data) {
             if (currentEntityId === data[tab].entityId) {
-                tabName = data[tab].tabName;
+                if (currentEntityId !== '') {
+                    this.setState({
+                        tabDetails: {
+                            isReady: true,
+                            name: data[tab].tabName,
+                            id: data[tab].entityId
+                        }
+                    });
+                }
             }
         }
 
-        if (currentEntityId !== '') {
-                this.setState({
-                        tabDetails: {
-                            isReady: true,
-                            name:tabName
-                        }
-                    });
-            }
+         
     }
    
     componentDidUpdate() {
