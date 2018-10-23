@@ -12,7 +12,7 @@ const initialState = {
 export const actionCreators = {
     requestBuyers: () => async (dispatch) => {
         dispatch({ type: requestBuyersType });
-        var result = JSON.parse('[{ "buyerid":"1", "buyername":"BuyerName1" },{ "buyerid":"2", "buyername":"BuyerName2" },{ "buyerid":"3", "buyername":"BuyerName3" }]');
+        var result = JSON.parse('[{ "id":"1", "name":"BuyerName1" },{ "id":"2", "name":"BuyerName2" },{ "id":"3", "name":"BuyerName3" }]');
         dispatch({ type: receiveBuyersType, result });
     }
 };

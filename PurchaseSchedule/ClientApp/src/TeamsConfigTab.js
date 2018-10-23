@@ -3,7 +3,7 @@ import { connectTeamsComponent, Panel, PanelBody, Input } from 'msteams-ui-compo
 import BuyerDropDown from './components/BuyerDropDown';
 import SupplierDropDown from './components/SupplierDropDown';
 import WorkspaceDropDown from './components/WorkspaceDropDown';
-import { inTeams } from './Utils';
+import { inTeams, getQueryVariable } from './Utils';
 import microsoftTeams from '@microsoft/teams-js';
 
 class TeamsConfigTabInner extends React.Component {
@@ -34,16 +34,11 @@ class TeamsConfigTabInner extends React.Component {
         this.onTabNameChanged = this.onTabNameChanged.bind(this);
 
         if (inTeams()) {
+                      
             microsoftTeams.getTabInstances((t, e) => {
-                if (t.teamTabs[0]) {
-                    this.setState(
-                        {
-                            tabDetails: {
-                                isReady: true,
-                            }
-                        });
-                }
+                this.ActivateTabName();
             });
+
             microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
                 let host = "https://" + window.location.host;
                 microsoftTeams.settings.setSettings({
@@ -53,13 +48,24 @@ class TeamsConfigTabInner extends React.Component {
                     suggestedDisplayName: this.state.tabDetails.tabName
                 });
                 saveEvent.notifySuccess();
-               
+              
             });
         }
 
     }
-
+    ActivateTabName() {
+            var currentEntity = getQueryVariable('entityId');
+            if (currentEntity !== '') {
+                this.setState({
+                        tabDetails: {
+                            isReady: true,
+                        }
+                    });
+            }
+    }
+   
     componentDidUpdate() {
+       
         if (inTeams()) {
             if (this.state.selectedBuyer.buyername
                 && this.state.selectedSupplier.supplierid
@@ -118,6 +124,7 @@ class TeamsConfigTabInner extends React.Component {
     }
 
     render() {
+       
         const { context } = this.props;
         const { rem, font } = context;
         const { sizes, weights } = font;
